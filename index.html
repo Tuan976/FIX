@@ -53,10 +53,12 @@
             statusDiv.innerHTML = "✅ Máy chủ sẵn sàng. Đang chuyển hướng...";
             setTimeout(() => window.location.href = REDIRECT_URL, 1000);
           } else {
+            statusDiv.innerHTML = "⏳ Đang chờ phản hồi từ máy chủ...";
             setTimeout(checkBackend, 3000);
           }
         })
         .catch(() => {
+          statusDiv.innerHTML = "🔁 Mất kết nối. Đang thử lại...";
           setTimeout(checkBackend, 3000);
         });
     };
