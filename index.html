@@ -2,30 +2,39 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Đang khởi động máy chủ...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đang tải...</title>
   <style>
     body {
       background: linear-gradient(to right, #9e7c5b, #6c4c2d);
       color: #fff;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
       padding-top: 15%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
     h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+      font-size: 2.2em;
+      margin-bottom: 25px;
+      animation: fadeIn 1s ease-out;
     }
     #status {
-      font-size: 16px;
-      margin-top: 10px;
+      font-size: 1.1em;
+      margin-top: 15px;
       color: #ffeebb;
+      animation: fadeIn 1.5s ease-out;
     }
     .spinner {
-      margin: 30px auto;
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(255,255,255,0.3);
-      border-top: 5px solid #fff;
+      margin: 40px auto;
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255,255,255,0.3);
+      border-top: 6px solid #fff;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -33,37 +42,38 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8em;
+      }
+      #status {
+        font-size: 1em;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border-width: 5px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>🚀 Máy chủ đang khởi động...</h1>
+  <h1>🚀 Đang tải trang...</h1>
   <div class="spinner"></div>
-  <div id="status">Vui lòng đợi vài giây...</div>
+  <div id="status">Vui lòng đợi giây lát...</div>
 
   <script>
-    const statusDiv = document.getElementById("status");
-    const CHECK_URL = "https://khodeazota.onrender.com/ping-vietnamnet";
     const REDIRECT_URL = "https://khodeazota.onrender.com/";
+    const DELAY_TIME = 3000; // Thời gian chờ trước khi chuyển hướng (3000ms = 3 giây)
 
-    const checkBackend = () => {
-      fetch(CHECK_URL)
-        .then(res => res.json())
-        .then(data => {
-          if (data.ok) {
-            statusDiv.innerHTML = "✅ Máy chủ sẵn sàng. Đang chuyển hướng...";
-            setTimeout(() => window.location.href = REDIRECT_URL, 1000);
-          } else {
-            statusDiv.innerHTML = "⏳ Đang chờ phản hồi từ máy chủ...";
-            setTimeout(checkBackend, 3000);
-          }
-        })
-        .catch(() => {
-          statusDiv.innerHTML = "🔁 Mất kết nối. Đang thử lại...";
-          setTimeout(checkBackend, 3000);
-        });
-    };
-
-    checkBackend();
+    // Hàm này sẽ tự động chạy sau một khoảng thời gian
+    setTimeout(() => {
+      window.location.href = REDIRECT_URL;
+    }, DELAY_TIME);
   </script>
 </body>
 </html>
