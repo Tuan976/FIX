@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đang tải...</title>
   <style>
     body {
@@ -10,7 +10,6 @@
       color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      padding-top: 15%;
       margin: 0;
       display: flex;
       flex-direction: column;
@@ -47,12 +46,8 @@
       to { opacity: 1; }
     }
     @media (max-width: 600px) {
-      h1 {
-        font-size: 1.8em;
-      }
-      #status {
-        font-size: 1em;
-      }
+      h1 { font-size: 1.8em; }
+      #status { font-size: 1em; }
       .spinner {
         width: 50px;
         height: 50px;
@@ -68,31 +63,20 @@
 
   <script>
     const REDIRECT_URL = "https://khodeazota.onrender.com/";
-    const DELAY_TIME = 3000;
+    const DELAY_TIME = 2000; // 2 giây sau khi xác nhận kết nối thì chuyển
 
-    function checkServerStatus() {
-      fetch(REDIRECT_URL, { method: 'HEAD' })
-        .then(response => {
-          if (response.ok) {
-            setTimeout(() => {
-              window.location.href = REDIRECT_URL;
-            }, DELAY_TIME);
-          } else {
-            showError();
-          }
-        })
-        .catch(() => {
-          showError();
-        });
+    function checkServerByImagePing(url, callback) {
+      const img = new Image();
+      img.onload = () => callback(true);
+      img.onerror = () => callback(false);
+      img.src = url + "/favicon.ico?" + Date.now(); // ảnh nhỏ và luôn có mặt
     }
 
-    function showError() {
-      document.querySelector(".spinner").style.display = "none";
-      document.getElementById("status").textContent = "❌ Không thể kết nối đến máy chủ. Vui lòng thử lại sau.";
-      document.getElementById("status").style.color = "#ffcccc";
-    }
-
-    checkServerStatus();
-  </script>
-</body>
-</html>
+    checkServerByImagePing(REDIRECT_URL, function (isOnline) {
+      if (isOnline) {
+        setTimeout(() => {
+          window.location.href = REDIRECT_URL;
+        }, DELAY_TIME);
+      } else {
+        document.querySelector(".spinner").style.display = "none";
+        const statusEl = document.getElementBy
