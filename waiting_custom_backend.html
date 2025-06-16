@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đang khởi động máy chủ...</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #9e7c5b, #6c4c2d);
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 15%;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    #status {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #ffeebb;
+    }
+    .spinner {
+      margin: 30px auto;
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Máy chủ đang khởi động...</h1>
+  <div class="spinner"></div>
+  <div id="status">Vui lòng đợi vài giây...</div>
+
+  <script>
+    const statusDiv = document.getElementById("status");
+    const CHECK_URL = "https://tracuu-backend.onrender.com/ping-vietnamnet"; // Đổi thành URL thật của backend nếu cần
+    const REDIRECT_URL = "https://tracuu-backend.onrender.com/"; // Trang chính sau khi backend sẵn sàng
+
+    const checkBackend = () => {
+      fetch(CHECK_URL)
+        .then(res => res.json())
+        .then(data => {
+          if (data.ok) {
+            statusDiv.innerHTML = "✅ Máy chủ sẵn sàng. Đang chuyển hướng...";
+            setTimeout(() => window.location.href = REDIRECT_URL, 1000);
+          } else {
+            setTimeout(checkBackend, 3000);
+          }
+        })
+        .catch(() => {
+          setTimeout(checkBackend, 3000);
+        });
+    };
+
+    checkBackend();
+  </script>
+</body>
+</html>
